@@ -1,0 +1,23 @@
+Use websocket king for conncurrent connection
+socket url : ws://localhost:8080/socket
+
+subsribe data :
+
+{
+  "action": "subscribe",
+  "topic": "world"
+}
+
+unsubsribe data:
+{
+  "action": "unsubscribe",
+  "topic": "world"
+}
+
+rest url :http://localhost:8080/publish
+method post
+publish request body 
+{
+  "topic":"world",
+  "message":"something"
+}
