@@ -1,14 +1,14 @@
-Use websocket king for conncurrent connection
+Use websocket king for websocket connection
 socket url : ws://localhost:8080/socket
 
-subsribe data :
+subsribe request data :
 
 {
   "action": "subscribe",
   "topic": "world"
 }
 
-unsubsribe data:
+unsubsribe request data:
 {
   "action": "unsubscribe",
   "topic": "world"

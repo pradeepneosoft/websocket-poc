@@ -14,7 +14,6 @@ var upgrader = websocket.Upgrader{
 	ReadBufferSize:  1024,
 	WriteBufferSize: 1024,
 }
-var Subscriptions = map[string][]models.Client{}
 
 func WebSocketHandler(c *gin.Context) {
 	upgrader.CheckOrigin = func(r *http.Request) bool {
@@ -33,12 +32,12 @@ func WebSocketHandler(c *gin.Context) {
 
 	Send(&client, "Server: Welcome! Your ID is "+client.ID)
 	for {
-		messageType, p, err := conn.ReadMessage()
+		_, p, err := conn.ReadMessage()
 		if err != nil {
 			RemoveClient(client)
 			return
 		}
-		ProcessMessage(client, messageType, p)
+		ProcessMessage(client, p)
 	}
 
 }

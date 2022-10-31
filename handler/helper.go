@@ -13,7 +13,9 @@ const (
 	unsubscribe = "unsubscribe"
 )
 
-func ProcessMessage(client models.Client, messageType int, payload []byte) {
+var Subscriptions = map[string][]models.Client{}
+
+func ProcessMessage(client models.Client, payload []byte) {
 	m := models.Message{}
 	if err := json.Unmarshal(payload, &m); err != nil {
 		Send(&client, "Server: Invalid payload")
@@ -50,17 +52,24 @@ func Subscribe(client *models.Client, topic string) {
 	idx := sort.Search(len(Subscriptions[topic]), func(i int) bool {
 		return string(Subscriptions[topic][i].ID) >= client.ID
 	})
-	//idx < len(Subscriptions[topic]) && Subscriptions[topic][idx].ID == client.ID
-	//fmt.Println(" : ", idx)
 
-	if idx < len(Subscriptions[topic]) && Subscriptions[topic][idx].ID == client.ID {
-		fmt.Println("Found : ", idx)
+	// if idx < len(Subscriptions[topic]) && Subscriptions[topic][idx].ID == client.ID {
+	// 	fmt.Println("Found : ", idx)
 
-	} else {
+	// } else {
+	// 	fmt.Println("not Found : ", idx)
+	// 	Subscriptions[topic] = append(Subscriptions[topic], *client)
+
+	// }
+	if !(idx < len(Subscriptions[topic]) && Subscriptions[topic][idx].ID == client.ID) {
 		fmt.Println("not Found : ", idx)
 		Subscriptions[topic] = append(Subscriptions[topic], *client)
-
 	}
+	//  else {
+
+	// 	fmt.Println("Found : ", idx)
+
+	// }
 
 	fmt.Println(Subscriptions)
 }
